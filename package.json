@@ -1,0 +1,26 @@
+{
+  "name": "form-builder-backend",
+  "version": "1.0.0",
+  "description": "Node server backend for Form builder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pragatheeswarans/form-builder-backend.git"
+  },
+  "author": "pragatheeswaran.s",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect": "^3.6.5",
+    "inspect": "0.0.2",
+    "mysql": "^2.15.0"
+  },
+  "bugs": {
+    "url": "https://github.com/pragatheeswarans/form-builder-backend/issues"
+  },
+  "homepage": "https://github.com/pragatheeswarans/form-builder-backend#readme"
+}
