@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const connect = require('connect');
 const bodyParser = require('body-parser');
-const hostname = 'mysql://mysql:3306/';
+const hostname = 'den1.mysql6.gear.host';
 const port = '8080';
 let app = connect();
 app.use(bodyParser.json({ extended: false }));
@@ -9,9 +9,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const connection = mysql.createConnection({
   host: hostname,
-  user: 'userP0A',
-  password: 'mXENpKb1yUe5bVbt',
-  database: 'form-builder'
+  user: 'formbuilder',
+  password: 'Sw02~p?oSOy6',
+  database: 'formbuilder'
 });
 
 connection.connect((err) => {
@@ -71,4 +71,3 @@ app.use('/form/get', (req, res) => {
 });
 
 app.listen(port);
-console.log(`Server running at http://${hostname}:${port}`);
