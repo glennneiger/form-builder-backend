@@ -2,22 +2,22 @@ const mysql = require('mysql');
 const connect = require('connect');
 const bodyParser = require('body-parser');
 const hostname = 'den1.mysql6.gear.host';
-const port = '8080';
+const port = process.env.PORT || '8080';
 let app = connect();
 app.use(bodyParser.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const connection = mysql.createConnection({
   host: hostname,
-  user: 'formbuilder',
-  password: 'Sw02~p?oSOy6',
-  database: 'formbuilder'
+  user: process.env.mysqlUserName,
+  password: process.env.mysqlPassword,
+  database: 'formbuilderdemo'
 });
 
 connection.connect((err) => {
   if (err) throw err;
   console.log('connected');
-  let query = 'CREATE TABLE IF NOT EXISTS forms (id INT(11) AUTO_INCREMENT NOT NULL, name VARCHAR(50) UNIQUE, data TEXT, PRIMARY KEY(id))';
+  let query = 'CREATE TABLE IF NOT EXISTS forms (id INT(11) AUTO_INCREMENT NOT NULL, name VARCHAR(50) UNIQUE, data TEXT, submittedValue TEXT, PRIMARY KEY(id))';
   connection.query(query, (err, result) => {
     if (err) throw err;
     console.log('Table created!');
@@ -67,6 +67,24 @@ app.use('/form/get', (req, res) => {
       responseObj = {code: 1, message: 'Some Error occurred'};
     }
     res.end(JSON.stringify(result));
+  });
+});
+
+app.use('/form/submit', (req, res) => {
+  let qp = req.url.split('?');
+  let formParam = qp[1].split('=');
+  let body = req.body;
+  let data = body.JSONString;
+  let responseObj = {code: 0, message: 'Form submitted successfully'};
+  let query = `UPDATE forms SET submittedValue='${data}'  WHERE id='${formParam[1]}'`;
+  res.writeHead(200, {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
+  connection.query(query, (err, result, fields) => {
+    if (err) {
+      console.log(err);
+      res.writeHead(400, {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+      responseObj = {code: 1, message: 'Some Error occurred'};
+    }
+    res.end(JSON.stringify(responseObj));
   });
 });
 
